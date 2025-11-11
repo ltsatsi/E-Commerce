@@ -1,4 +1,6 @@
+import 'package:e_commerce/cart-feature/providers/cart_provider.dart';
 import 'package:e_commerce/product-feature/providers/product_provider.dart';
+import 'package:e_commerce/utils/widgets/bottom_navigation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,11 +13,11 @@ class ProductPage extends ConsumerStatefulWidget {
 }
 
 class _ProductPageState extends ConsumerState<ProductPage> {
-  int _selectedIndex = 0;
   int qIncrement = 0;
   @override
   Widget build(BuildContext context) {
     final product = ref.watch(selectedProductProvider);
+    final cartProducts = ref.watch(cartProvider);
 
     if (product == null) {
       return Scaffold(body: Center(child: Text('No Product selected.')));
@@ -151,49 +153,51 @@ class _ProductPageState extends ConsumerState<ProductPage> {
                   ],
                 ),
                 SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
+                if (!cartProducts.contains(product))
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero,
+                        ),
                       ),
+                      onPressed: !product.inStock
+                          ? null
+                          : () {
+                              ref
+                                  .read(cartProvider.notifier)
+                                  .addProduct(product);
+                            },
+                      child: Text('Add to Cart'),
                     ),
-                    onPressed: !product.inStock ? null : () {},
-                    child: Text('Add to Cart'),
                   ),
-                ),
+                if (cartProducts.contains(product))
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero,
+                        ),
+                      ),
+                      onPressed: !product.inStock
+                          ? null
+                          : () {
+                              ref
+                                  .read(cartProvider.notifier)
+                                  .removeProduct(product);
+                            },
+                      child: Text('Remove'),
+                    ),
+                  ),
               ],
             ),
           ],
         ),
       ),
       // Bottom Navigation
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blueAccent,
-        onTap: (value) {
-          setState(() {
-            _selectedIndex = value;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.heart),
-            label: 'Wishlist',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.bag),
-            label: 'Cart',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.person),
-            label: 'Profile',
-          ),
-        ],
-      ),
+      bottomNavigationBar: CBottomNavigation(),
     );
   }
 }

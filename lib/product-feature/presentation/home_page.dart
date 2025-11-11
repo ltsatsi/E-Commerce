@@ -1,5 +1,6 @@
 import 'package:e_commerce/product-feature/providers/product_provider.dart';
 import 'package:e_commerce/utils/routes/route_manager.dart';
+import 'package:e_commerce/utils/widgets/bottom_navigation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,7 +13,6 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  int _selectedIndex = 0;
   String sortOrder = 'all';
   final TextEditingController _searchController = TextEditingController();
 
@@ -184,31 +184,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       ),
 
       // Bottom Navigation
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blueAccent,
-        onTap: (value) {
-          setState(() {
-            _selectedIndex = value;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.heart),
-            label: 'Wishlist',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.bag),
-            label: 'Cart',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.person),
-            label: 'Profile',
-          ),
-        ],
-      ),
+      bottomNavigationBar: CBottomNavigation(),
     );
   }
 }
