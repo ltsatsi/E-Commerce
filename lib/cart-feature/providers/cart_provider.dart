@@ -12,7 +12,16 @@ class CartNotifier extends Notifier<List<Product>> {
   // State methods
   void addProduct(Product product) {
     state = [...state, product];
-    Helper.removeDuplicates(state);
+    state = Helper.removeDuplicates(state);
+  }
+
+  void quantityIncrement(Product product, int count) {
+    Product stateProduct = state.firstWhere(
+      (p) => p.productId == product.productId,
+    );
+    stateProduct.quantity = count;
+    state = [...state, product];
+    state = Helper.removeDuplicates(state);
   }
 
   void removeProduct(Product product) {

@@ -125,18 +125,31 @@ class _ProductPageState extends ConsumerState<ProductPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: product.quantity == 1
+                          ? null
+                          : () {
+                              ref
+                                  .read(cartProvider.notifier)
+                                  .quantityIncrement(
+                                    product,
+                                    product.quantity - 1,
+                                  );
+                            },
                       icon: Icon(CupertinoIcons.minus),
                     ),
                     Text(
-                      '1',
+                      '${product.quantity}',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        ref
+                            .read(cartProvider.notifier)
+                            .quantityIncrement(product, product.quantity + 1);
+                      },
                       icon: Icon(CupertinoIcons.add),
                     ),
                   ],
