@@ -29,21 +29,11 @@ class _HomePageState extends ConsumerState<HomePage> {
     return Scaffold(
       // Application Bar
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Padding(
           padding: const EdgeInsets.only(left: 10, top: 10),
-          child: Text('ClickCart'),
+          child: Text('MyApp'),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10, top: 10),
-            child: IconButton(
-              onPressed: () {
-                // Handle press
-              },
-              icon: Icon(Icons.person_outlined),
-            ),
-          ),
-        ],
       ),
 
       // Home screen
@@ -63,7 +53,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                     hintText: 'Search',
                     filled: true,
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
+                      borderRadius: BorderRadius.zero,
                       borderSide: BorderSide.none,
                     ),
                   ),
@@ -142,7 +132,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                             height: 200,
                             decoration: BoxDecoration(
                               color: const Color(0x14000000),
-                              borderRadius: BorderRadius.circular(5),
+                              borderRadius: BorderRadius.zero,
                             ),
                             child: Center(
                               child: Image.asset(

@@ -40,30 +40,19 @@ class _ProductPageState extends ConsumerState<ProductPage> {
           child: Text('Product Details'),
         ),
         centerTitle: true,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10, top: 10),
-            child: IconButton(
-              onPressed: () {
-                // Handle press
-              },
-              icon: Icon(Icons.person_outlined),
-            ),
-          ),
-        ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(25),
+        padding: const EdgeInsets.only(top: 25, left: 25, right: 25),
         child: Column(
           children: [
             // Image section
             Stack(
               children: [
                 Container(
-                  height: 200,
+                  height: 290,
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(29, 0, 0, 0),
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.zero,
                   ),
                   child: Center(
                     child: Image.asset(product.image, fit: BoxFit.cover),
@@ -97,7 +86,7 @@ class _ProductPageState extends ConsumerState<ProductPage> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
 
             // Product details
             SizedBox(
@@ -121,7 +110,7 @@ class _ProductPageState extends ConsumerState<ProductPage> {
                 ],
               ),
             ),
-            SizedBox(height: 80),
+            SizedBox(height: 20),
 
             // Actions Section
             Column(

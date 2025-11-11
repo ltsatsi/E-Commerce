@@ -2,8 +2,6 @@ import 'package:e_commerce/product-feature/models/product.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:riverpod/riverpod.dart';
 
-// part 'product_provider.g.dart';
-
 List<Product> allProducts = <Product>[
   Product(
     1,
@@ -43,7 +41,6 @@ List<Product> allProducts = <Product>[
   ),
 ];
 
-// return all
 final productsProvider = Provider<List<Product>>((ref) {
   return allProducts;
 });

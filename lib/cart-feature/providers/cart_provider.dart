@@ -31,3 +31,14 @@ class CartNotifier extends Notifier<List<Product>> {
 final cartProvider = NotifierProvider<CartNotifier, List<Product>>(
   () => CartNotifier(),
 );
+
+final cartTotalProvider = Provider((ref) {
+  final cartProducts = ref.watch(cartProvider);
+  double sum = 0.00;
+
+  for (var p in cartProducts) {
+    sum += p.price;
+  }
+
+  return sum;
+});

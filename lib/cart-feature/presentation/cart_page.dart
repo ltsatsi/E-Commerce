@@ -15,6 +15,7 @@ class _CartPageState extends ConsumerState<CartPage> {
   @override
   Widget build(BuildContext context) {
     final cartProducts = ref.watch(cartProvider);
+    final cartTotal = ref.watch(cartTotalProvider);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -32,17 +33,6 @@ class _CartPageState extends ConsumerState<CartPage> {
           child: Text('Cart'),
         ),
         centerTitle: true,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10, top: 10),
-            child: IconButton(
-              onPressed: () {
-                // Handle press
-              },
-              icon: Icon(Icons.person_outlined),
-            ),
-          ),
-        ],
       ),
 
       body: Padding(
@@ -50,7 +40,7 @@ class _CartPageState extends ConsumerState<CartPage> {
         child: Column(
           children: [
             SizedBox(
-              height: 620,
+              height: 485,
               width: 500,
               child: cartProducts.isEmpty
                   ? Center(child: Text('Cart Empty'))
@@ -86,15 +76,83 @@ class _CartPageState extends ConsumerState<CartPage> {
                     ),
             ),
             SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'SubTotal:',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Text(
+                        'R ${cartTotal.toStringAsFixed(2)}',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                onPressed: cartProducts.isEmpty ? null : () {},
-                child: Text('Checkout'),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Credit Applied:',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Text(
+                        'R0.00',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Divider(),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Total:',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        'R ${cartTotal.toStringAsFixed(2)}',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero,
+                        ),
+                      ),
+                      onPressed: cartProducts.isEmpty ? null : () {},
+                      child: Text('Checkout'),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
