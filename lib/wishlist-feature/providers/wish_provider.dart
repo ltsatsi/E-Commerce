@@ -25,10 +25,8 @@ class WishNotifier extends Notifier<List<Product>> {
   }
 
   void removeProduct(Product product) {
-    if (state.contains(product)) {
-      product.quantity = 1;
-      state = state.where((p) => p.productId != product.productId).toList();
-    }
+    product.quantity = 1;
+    state = state.where((p) => p.productId != product.productId).toList();
   }
 
   void clearWish() {

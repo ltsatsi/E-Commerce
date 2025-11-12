@@ -24,7 +24,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final products = ref.watch(productsProvider);
+    final products = ref.watch(productNotifierProvider);
 
     return Scaffold(
       // Application Bar
@@ -114,13 +114,14 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ),
                 itemCount: products.length,
                 itemBuilder: (context, index) {
+                  final product = products[index];
                   return Padding(
                     padding: const EdgeInsets.all(5),
                     child: GestureDetector(
                       onTap: () {
                         // Handle tap
                         ref.read(selectedProductProvider.notifier).state =
-                            products[index];
+                            product;
                         Navigator.of(
                           context,
                         ).pushNamed(RouteManager.productPage);
@@ -147,8 +148,17 @@ class _HomePageState extends ConsumerState<HomePage> {
                               Positioned(
                                 right: 3,
                                 child: IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(CupertinoIcons.heart),
+                                  onPressed: () {
+                                    ref
+                                        .read(productNotifierProvider.notifier)
+                                        .toggleLike(
+                                          products[index].productId,
+                                          ref,
+                                        );
+                                  },
+                                  icon: products[index].isLiked
+                                      ? Icon(CupertinoIcons.heart_fill)
+                                      : Icon(CupertinoIcons.heart),
                                 ),
                               ),
                             ],

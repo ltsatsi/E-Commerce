@@ -1,6 +1,8 @@
 import 'package:e_commerce/product-feature/models/product.dart';
+import 'package:e_commerce/wishlist-feature/providers/wish_provider.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:riverpod/riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 List<Product> allProducts = <Product>[
   Product(
@@ -46,3 +48,45 @@ final productsProvider = Provider<List<Product>>((ref) {
 });
 
 final selectedProductProvider = StateProvider<Product?>((ref) => null);
+
+final liveSelectedProductProvider = Provider<Product?>((ref) {
+  final selected = ref.watch(selectedProductProvider);
+  final products = ref.watch(productNotifierProvider);
+
+  if (selected == null) return null;
+
+  return products.firstWhere(
+    (p) => p.productId == selected.productId,
+    orElse: () => selected,
+  );
+});
+
+// notifier
+class ProductNotifier extends StateNotifier<List<Product>> {
+  ProductNotifier() : super(allProducts);
+
+  void toggleLike(int productId, WidgetRef ref) {
+    state = state.map((product) {
+      if (product.productId == productId) {
+        final updated = product.copyWith(isLiked: !product.isLiked);
+
+        final wishNotifier = ref.read(wishProvider.notifier);
+
+        if (updated.isLiked) {
+          wishNotifier.addProduct(updated);
+        } else {
+          wishNotifier.removeProduct(updated);
+        }
+
+        return updated;
+      }
+      return product;
+    }).toList();
+  }
+}
+
+// provider
+final productNotifierProvider =
+    StateNotifierProvider<ProductNotifier, List<Product>>((ref) {
+      return ProductNotifier();
+    });

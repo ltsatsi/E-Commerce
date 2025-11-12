@@ -1,7 +1,6 @@
 import 'package:e_commerce/cart-feature/providers/cart_provider.dart';
 import 'package:e_commerce/product-feature/providers/product_provider.dart';
 import 'package:e_commerce/utils/widgets/bottom_navigation.dart';
-import 'package:e_commerce/wishlist-feature/providers/wish_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,7 +16,7 @@ class _ProductPageState extends ConsumerState<ProductPage> {
   int qIncrement = 0;
   @override
   Widget build(BuildContext context) {
-    final product = ref.watch(selectedProductProvider);
+    final product = ref.watch(liveSelectedProductProvider);
     final cartProducts = ref.watch(cartProvider);
 
     if (product == null) {
@@ -174,9 +173,13 @@ class _ProductPageState extends ConsumerState<ProductPage> {
                         ),
                       ),
                       onPressed: () {
-                        ref.read(wishProvider.notifier).addProduct(product);
+                        ref
+                            .read(productNotifierProvider.notifier)
+                            .toggleLike(product.productId, ref);
                       },
-                      child: Icon(CupertinoIcons.heart),
+                      child: product.isLiked
+                          ? Icon(CupertinoIcons.heart_fill)
+                          : Icon(CupertinoIcons.heart),
                     ),
                     SizedBox(width: 10),
                     if (!cartProducts.contains(product))
