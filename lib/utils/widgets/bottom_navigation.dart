@@ -1,5 +1,6 @@
 import 'package:e_commerce/utils/routes/route_manager.dart';
 import 'package:e_commerce/utils/widgets/cart_icon.dart';
+import 'package:e_commerce/utils/widgets/wish_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +26,9 @@ class _CBottomNavigationState extends State<CBottomNavigation> {
             case 0:
               Navigator.of(context).pushNamed(RouteManager.homePage);
               break;
+            case 1:
+              Navigator.of(context).pushNamed(RouteManager.wishListPage);
+              break;
             case 2:
               Navigator.of(context).pushNamed(RouteManager.cartPage);
               break;
@@ -33,10 +37,7 @@ class _CBottomNavigationState extends State<CBottomNavigation> {
       },
       items: [
         BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
-        BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.heart),
-          label: 'Wishlist',
-        ),
+        BottomNavigationBarItem(icon: WishIcon(), label: 'Wishlist'),
         BottomNavigationBarItem(icon: CartIcon(), label: 'Cart'),
         BottomNavigationBarItem(
           icon: Icon(CupertinoIcons.person),

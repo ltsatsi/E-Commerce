@@ -1,6 +1,7 @@
 import 'package:e_commerce/cart-feature/providers/cart_provider.dart';
 import 'package:e_commerce/product-feature/providers/product_provider.dart';
 import 'package:e_commerce/utils/widgets/bottom_navigation.dart';
+import 'package:e_commerce/wishlist-feature/providers/wish_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -164,44 +165,60 @@ class _ProductPageState extends ConsumerState<ProductPage> {
                   ],
                 ),
                 SizedBox(height: 20),
-                if (!cartProducts.contains(product))
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
+                Row(
+                  children: [
+                    ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.zero,
                         ),
                       ),
-                      onPressed: !product.inStock
-                          ? null
-                          : () {
-                              ref
-                                  .read(cartProvider.notifier)
-                                  .addProduct(product);
-                            },
-                      child: Text('Add to Cart'),
+                      onPressed: () {
+                        ref.read(wishProvider.notifier).addProduct(product);
+                      },
+                      child: Icon(CupertinoIcons.heart),
                     ),
-                  ),
-                if (cartProducts.contains(product))
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero,
+                    SizedBox(width: 10),
+                    if (!cartProducts.contains(product))
+                      SizedBox(
+                        width: 285,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
+                          ),
+                          onPressed: !product.inStock
+                              ? null
+                              : () {
+                                  ref
+                                      .read(cartProvider.notifier)
+                                      .addProduct(product);
+                                },
+                          child: Text('Add to Cart'),
                         ),
                       ),
-                      onPressed: !product.inStock
-                          ? null
-                          : () {
-                              ref
-                                  .read(cartProvider.notifier)
-                                  .removeProduct(product);
-                            },
-                      child: Text('Remove'),
-                    ),
-                  ),
+                    if (cartProducts.contains(product))
+                      SizedBox(
+                        width: 285,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
+                          ),
+                          onPressed: !product.inStock
+                              ? null
+                              : () {
+                                  ref
+                                      .read(cartProvider.notifier)
+                                      .removeProduct(product);
+                                },
+                          child: Text('Remove'),
+                        ),
+                      ),
+                  ],
+                ),
               ],
             ),
           ],

@@ -128,19 +128,30 @@ class _HomePageState extends ConsumerState<HomePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            height: 200,
-                            decoration: BoxDecoration(
-                              color: const Color(0x14000000),
-                              borderRadius: BorderRadius.zero,
-                            ),
-                            child: Center(
-                              child: Image.asset(
-                                width: 180,
-                                height: 180,
-                                products[index].image,
+                          Stack(
+                            children: [
+                              Container(
+                                height: 200,
+                                decoration: BoxDecoration(
+                                  color: const Color(0x14000000),
+                                  borderRadius: BorderRadius.zero,
+                                ),
+                                child: Center(
+                                  child: Image.asset(
+                                    width: 180,
+                                    height: 180,
+                                    products[index].image,
+                                  ),
+                                ),
                               ),
-                            ),
+                              Positioned(
+                                right: 3,
+                                child: IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(CupertinoIcons.heart),
+                                ),
+                              ),
+                            ],
                           ),
                           SizedBox(height: 5),
                           Text(

@@ -2,7 +2,7 @@ import 'package:e_commerce/product-feature/models/product.dart';
 import 'package:e_commerce/utils/helpers/helpers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CartNotifier extends Notifier<List<Product>> {
+class WishNotifier extends Notifier<List<Product>> {
   // Initial value
   @override
   List<Product> build() {
@@ -31,7 +31,7 @@ class CartNotifier extends Notifier<List<Product>> {
     }
   }
 
-  void clearCart() {
+  void clearWish() {
     if (state.isNotEmpty) {
       for (Product p in state) {
         p.quantity = 1;
@@ -41,19 +41,6 @@ class CartNotifier extends Notifier<List<Product>> {
   }
 }
 
-final cartProvider = NotifierProvider<CartNotifier, List<Product>>(
-  () => CartNotifier(),
+final wishProvider = NotifierProvider<WishNotifier, List<Product>>(
+  () => WishNotifier(),
 );
-
-final cartTotalProvider = Provider((ref) {
-  final cartProducts = ref.watch(cartProvider);
-  double sum = 0;
-  double productTotal = 0;
-
-  for (Product p in cartProducts) {
-    productTotal = p.price * p.quantity;
-    sum += productTotal;
-  }
-
-  return sum;
-});
