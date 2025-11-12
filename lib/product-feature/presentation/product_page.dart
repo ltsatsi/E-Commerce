@@ -146,9 +146,18 @@ class _ProductPageState extends ConsumerState<ProductPage> {
                     ),
                     IconButton(
                       onPressed: () {
-                        ref
-                            .read(cartProvider.notifier)
-                            .quantityIncrement(product, product.quantity + 1);
+                        try {
+                          if (!cartProducts.contains(product)) {
+                            ref.read(cartProvider.notifier).addProduct(product);
+                          }
+                          ref
+                              .read(cartProvider.notifier)
+                              .quantityIncrement(product, product.quantity + 1);
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Please add to cart first')),
+                          );
+                        }
                       },
                       icon: Icon(CupertinoIcons.add),
                     ),

@@ -128,7 +128,7 @@ class _CartPageState extends ConsumerState<CartPage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'R ${cartProducts[index].price.toStringAsFixed(2)}',
+                                    'R ${cartProducts[index].totalPrice.toStringAsFixed(2)}',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                     ),

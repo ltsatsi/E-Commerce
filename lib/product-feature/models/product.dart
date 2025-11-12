@@ -16,4 +16,6 @@ class Product {
     this.inStock = true,
     this.quantity = 1,
   });
+
+  double get totalPrice => price * quantity;
 }

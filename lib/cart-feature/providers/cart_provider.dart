@@ -1,6 +1,7 @@
 import 'package:e_commerce/product-feature/models/product.dart';
 import 'package:e_commerce/utils/helpers/helpers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 
 class CartNotifier extends Notifier<List<Product>> {
   // Initial value
@@ -26,12 +27,16 @@ class CartNotifier extends Notifier<List<Product>> {
 
   void removeProduct(Product product) {
     if (state.contains(product)) {
+      product.quantity = 1;
       state = state.where((p) => p.productId != product.productId).toList();
     }
   }
 
   void clearCart() {
     if (state.isNotEmpty) {
+      for (Product p in state) {
+        p.quantity = 1;
+      }
       state = [];
     }
   }
@@ -43,10 +48,12 @@ final cartProvider = NotifierProvider<CartNotifier, List<Product>>(
 
 final cartTotalProvider = Provider((ref) {
   final cartProducts = ref.watch(cartProvider);
-  double sum = 0.00;
+  double sum = 0;
+  double productTotal = 0;
 
-  for (var p in cartProducts) {
-    sum += p.price;
+  for (Product p in cartProducts) {
+    productTotal = p.price * p.quantity;
+    sum += productTotal;
   }
 
   return sum;
