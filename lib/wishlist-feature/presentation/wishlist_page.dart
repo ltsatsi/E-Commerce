@@ -21,26 +21,32 @@ class _WishListPageState extends ConsumerState<WishListPage> {
       appBar: AppBar(
         foregroundColor: Colors.white,
         backgroundColor: const Color(0xFF1B1A1F),
-        title: Text('Wish List', style: TextStyle(color: Colors.white)),
+        title: Text(
+          'My wish list',
+          style: TextStyle(fontSize: 18, color: Colors.white),
+        ),
         centerTitle: true,
       ),
       body: wishProducts.isEmpty
-          ? Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
+          ? Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  ),
                 ),
-              ),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(CupertinoIcons.heart, size: 52),
-                    SizedBox(height: 15),
-                    Text('Wish list is empty'),
-                  ],
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(CupertinoIcons.heart, size: 52),
+                      SizedBox(height: 15),
+                      Text('Wish list is empty'),
+                    ],
+                  ),
                 ),
               ),
             )

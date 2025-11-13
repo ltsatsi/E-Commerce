@@ -73,6 +73,7 @@ class _ProductPageState extends ConsumerState<ProductPage> {
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) {
                           return Image.asset(
+                            height: 270,
                             'assets/images/fallback.jpg',
                             fit: BoxFit.cover,
                           );
