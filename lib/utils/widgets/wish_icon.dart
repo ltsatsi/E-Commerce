@@ -27,7 +27,7 @@ class _WishIconState extends ConsumerState<WishIcon> {
               width: 17,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.blueAccent,
+                color: Colors.blueGrey[900],
               ),
               child: Center(
                 child: Text(

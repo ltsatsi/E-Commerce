@@ -1,6 +1,7 @@
 import 'package:e_commerce/cart-feature/providers/cart_provider.dart';
 import 'package:e_commerce/product-feature/providers/product_provider.dart';
 import 'package:e_commerce/utils/widgets/bottom_navigation.dart';
+import 'package:e_commerce/wishlist-feature/providers/wish_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,6 +19,7 @@ class _ProductPageState extends ConsumerState<ProductPage> {
   Widget build(BuildContext context) {
     final product = ref.watch(liveSelectedProductProvider);
     final cartProducts = ref.watch(cartProvider);
+    final wishListProducts = ref.watch(wishProvider);
 
     if (product == null) {
       return Scaffold(body: Center(child: Text('No Product selected.')));
@@ -55,7 +57,16 @@ class _ProductPageState extends ConsumerState<ProductPage> {
                     borderRadius: BorderRadius.zero,
                   ),
                   child: Center(
-                    child: Image.asset(product.image, fit: BoxFit.cover),
+                    child: Image.asset(
+                      product.image,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          'assets/images/fallback.jpg',
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    ),
                   ),
                 ),
                 Positioned(
@@ -194,6 +205,11 @@ class _ProductPageState extends ConsumerState<ProductPage> {
                           onPressed: !product.inStock
                               ? null
                               : () {
+                                  if (wishListProducts.contains(product)) {
+                                    ref
+                                        .read(productNotifierProvider.notifier)
+                                        .toggleLike(product.productId, ref);
+                                  }
                                   ref
                                       .read(cartProvider.notifier)
                                       .addProduct(product);

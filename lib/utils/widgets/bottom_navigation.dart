@@ -16,9 +16,10 @@ class _CBottomNavigationState extends State<CBottomNavigation> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      backgroundColor: Colors.white,
       type: BottomNavigationBarType.fixed,
       currentIndex: _selectedIndex,
-      selectedItemColor: Colors.blueAccent,
+      selectedItemColor: Colors.blueGrey[900],
       onTap: (value) {
         setState(() {
           _selectedIndex = value;

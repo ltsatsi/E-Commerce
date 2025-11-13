@@ -25,7 +25,17 @@ class _WishListPageState extends ConsumerState<WishListPage> {
                 itemCount: wishProducts.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    leading: Image.asset(wishProducts[index].image),
+                    leading: Image.asset(
+                      width: 60,
+                      wishProducts[index].image,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          width: 60,
+                          'assets/images/fallback.jpg',
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    ),
                     title: Text(wishProducts[index].name),
                     subtitle: Text(
                       'R ${wishProducts[index].price.toStringAsFixed(2)}',

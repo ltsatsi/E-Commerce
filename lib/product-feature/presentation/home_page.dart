@@ -25,169 +25,283 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final products = ref.watch(productNotifierProvider);
+    Color bgColor = const Color(0xFF1B1A1F);
 
     return Scaffold(
       // Application Bar
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 10, top: 10),
-          child: Text('MyApp'),
-        ),
-      ),
 
       // Home screen
       body: Stack(
         children: [
-          Positioned(
-            left: 20,
-            right: 20,
-            child: SizedBox(
-              height: 100,
-              width: double.infinity,
-              child: Center(
-                child: TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.search),
-                    hintText: 'Search',
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.zero,
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 100,
-            left: 30,
-            right: 30,
-            child: SizedBox(
-              height: 50,
-              width: double.infinity,
+          Container(color: Colors.red),
+          Container(
+            height: 100,
+            color: bgColor,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '${products.length} Results',
-                    style: TextStyle(fontSize: 18),
+                  Icon(
+                    Icons.location_on_outlined,
+                    color: Colors.white,
+                    size: 14,
                   ),
-                  PopupMenuButton<String>(
-                    icon: const Icon(CupertinoIcons.slider_horizontal_3),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
-                    ),
-                    onSelected: (value) {
-                      // handle selection
-                      sortOrder = value;
-                    },
-                    itemBuilder: (context) => [
-                      const PopupMenuItem(value: 'all', child: Text('All')),
-                      const PopupMenuItem(
-                        value: 'desc',
-                        child: Text('Price: High → Low'),
-                      ),
-                      const PopupMenuItem(
-                        value: 'asc',
-                        child: Text('Price: Low → High'),
-                      ),
-                    ],
+                  SizedBox(width: 5),
+                  Text(
+                    'Welkom',
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
+                  SizedBox(width: 10),
+                  Icon(
+                    CupertinoIcons.chevron_down,
+                    color: Colors.white,
+                    size: 14,
                   ),
                 ],
               ),
             ),
           ),
           Positioned(
-            top: 160,
-            left: 15,
-            right: 15,
-            child: SizedBox(
-              width: 500,
-              height: 550,
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.66,
+            top: 80,
+            left: 0,
+            right: 0,
+            child: Container(
+              color: bgColor,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 10.0,
                 ),
-                itemCount: products.length,
-                itemBuilder: (context, index) {
-                  final product = products[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: GestureDetector(
-                      onTap: () {
-                        // Handle tap
-                        ref.read(selectedProductProvider.notifier).state =
-                            product;
-                        Navigator.of(
-                          context,
-                        ).pushNamed(RouteManager.productPage);
-                      },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Stack(
-                            children: [
-                              Container(
-                                height: 200,
-                                decoration: BoxDecoration(
-                                  color: const Color(0x14000000),
-                                  borderRadius: BorderRadius.zero,
-                                ),
-                                child: Center(
-                                  child: Image.asset(
-                                    width: 180,
-                                    height: 180,
-                                    products[index].image,
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                right: 3,
-                                child: IconButton(
-                                  onPressed: () {
-                                    ref
-                                        .read(productNotifierProvider.notifier)
-                                        .toggleLike(
-                                          products[index].productId,
-                                          ref,
-                                        );
-                                  },
-                                  icon: products[index].isLiked
-                                      ? Icon(CupertinoIcons.heart_fill)
-                                      : Icon(CupertinoIcons.heart),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            products[index].name,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18,
-                            ),
-                          ),
-                          Text(
-                            products[index].inStock
-                                ? 'In Stock'
-                                : 'Out of Stock',
-                          ),
-                          Text(
-                            'R ${products[index].price.toStringAsFixed(2)}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
+                child: TextField(
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.search),
+                    hintText: 'Search',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(60),
+                      borderSide: BorderSide.none,
+                    ),
+                    suffixIcon: Padding(
+                      padding: const EdgeInsetsDirectional.only(end: 12.0),
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.mic_none_outlined),
                       ),
                     ),
-                  );
-                },
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 150,
+            left: 0,
+            right: 0,
+            child: Container(
+              color: bgColor,
+              height: 150,
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 10.0,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '${products.length} Results',
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        ),
+                        PopupMenuButton<String>(
+                          icon: const Icon(
+                            CupertinoIcons.slider_horizontal_3,
+                            color: Colors.white,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.zero,
+                          ),
+                          onSelected: (value) {
+                            // handle selection
+                            sortOrder = value;
+                          },
+                          itemBuilder: (context) => [
+                            const PopupMenuItem(
+                              value: 'all',
+                              child: Text('All'),
+                            ),
+                            const PopupMenuItem(
+                              value: 'desc',
+                              child: Text('Price: High → Low'),
+                            ),
+                            const PopupMenuItem(
+                              value: 'asc',
+                              child: Text('Price: Low → High'),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 215,
+            left: 0,
+            right: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
+              ),
+              width: 500,
+              height: 590,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.66,
+                  ),
+                  itemCount: products.length,
+                  itemBuilder: (context, index) {
+                    final product = products[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: GestureDetector(
+                        onTap: () {
+                          // Handle tap
+                          ref.read(selectedProductProvider.notifier).state =
+                              product;
+                          Navigator.of(
+                            context,
+                          ).pushNamed(RouteManager.productPage);
+                        },
+                        child: Column(
+                          children: [
+                            Stack(
+                              children: [
+                                Container(
+                                  height: 200,
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      top: BorderSide(
+                                        color: const Color(0xFFE2E2E2),
+                                      ),
+                                      left: BorderSide(
+                                        color: const Color(0xFFE2E2E2),
+                                      ),
+                                      right: BorderSide(
+                                        color: const Color(0xFFE2E2E2),
+                                      ),
+                                    ),
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(10),
+                                      topRight: Radius.circular(10),
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Image.asset(
+                                      width: 180,
+                                      height: 180,
+                                      products[index].image,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                            return Image.asset(
+                                              'assets/images/fallback.jpg',
+                                              fit: BoxFit.cover,
+                                            );
+                                          },
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  right: 3,
+                                  child: IconButton(
+                                    onPressed: () {
+                                      ref
+                                          .read(
+                                            productNotifierProvider.notifier,
+                                          )
+                                          .toggleLike(
+                                            products[index].productId,
+                                            ref,
+                                          );
+                                    },
+                                    icon: products[index].isLiked
+                                        ? Icon(CupertinoIcons.heart_fill)
+                                        : Icon(CupertinoIcons.heart),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: const Color(0xFFE2E2E2),
+                                  ),
+                                  left: BorderSide(
+                                    color: const Color(0xFFE2E2E2),
+                                  ),
+                                  right: BorderSide(
+                                    color: const Color(0xFFE2E2E2),
+                                  ),
+                                ),
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(10),
+                                  bottomRight: Radius.circular(10),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 15,
+                                  bottom: 10,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      products[index].name,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    Text(
+                                      products[index].inStock
+                                          ? 'In Stock'
+                                          : 'Out of Stock',
+                                    ),
+                                    Text(
+                                      'R ${products[index].price.toStringAsFixed(2)}',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           ),

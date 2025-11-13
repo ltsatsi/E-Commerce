@@ -61,216 +61,234 @@ class _CartPageState extends ConsumerState<CartPage> {
                       itemBuilder: (context, index) {
                         return SizedBox(
                           height: 100,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Image.asset(
-                                    height: 100,
-                                    width: 50,
-                                    cartProducts[index].image,
-                                  ),
-                                  SizedBox(width: 20),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        cartProducts[index].name,
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      height: 100,
+                                      width: 60,
+                                      cartProducts[index].image,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                            return Image.asset(
+                                              height: 100,
+                                              width: 60,
+                                              'assets/images/fallback.jpg',
+                                              fit: BoxFit.cover,
+                                            );
+                                          },
+                                    ),
+                                    SizedBox(width: 20),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          cartProducts[index].name,
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(height: 5),
-                                      GestureDetector(
-                                        onTap: () {
-                                          ScaffoldMessenger.of(
-                                            context,
-                                          ).showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                'User wants backup for ${cartProducts[index].name}',
+                                        SizedBox(height: 5),
+                                        GestureDetector(
+                                          onTap: () {
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'User wants backup for ${cartProducts[index].name}',
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: const Color(0x1A000000),
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                    vertical: 5,
+                                                    horizontal: 10,
+                                                  ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Icon(Icons.swap_horiz),
+                                                  SizedBox(width: 10),
+                                                  Text('Pick a backup'),
+                                                ],
                                               ),
                                             ),
-                                          );
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: const Color(0x1A000000),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 5,
-                                              horizontal: 10,
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Icon(Icons.swap_horiz),
-                                                SizedBox(width: 10),
-                                                Text('Pick a backup'),
-                                              ],
-                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'R ${cartProducts[index].totalPrice.toStringAsFixed(2)}',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
+                                      ],
                                     ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      if (cartProducts[index].quantity <= 1)
-                                        IconButton(
-                                          onPressed: () {
-                                            ref
-                                                .read(cartProvider.notifier)
-                                                .quantityIncrement(
-                                                  cartProducts[index],
-                                                  1,
-                                                );
-                                            ref
-                                                .read(cartProvider.notifier)
-                                                .removeProduct(
-                                                  cartProducts[index],
-                                                );
-                                          },
-                                          icon: Icon(CupertinoIcons.trash),
+                                  ],
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'R ${cartProducts[index].totalPrice.toStringAsFixed(2)}',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        if (cartProducts[index].quantity <= 1)
+                                          IconButton(
+                                            onPressed: () {
+                                              ref
+                                                  .read(cartProvider.notifier)
+                                                  .quantityIncrement(
+                                                    cartProducts[index],
+                                                    1,
+                                                  );
+                                              ref
+                                                  .read(cartProvider.notifier)
+                                                  .removeProduct(
+                                                    cartProducts[index],
+                                                  );
+                                            },
+                                            icon: Icon(CupertinoIcons.trash),
+                                          ),
+                                        if (cartProducts[index].quantity > 1)
+                                          IconButton(
+                                            onPressed: () {
+                                              ref
+                                                  .read(cartProvider.notifier)
+                                                  .quantityIncrement(
+                                                    cartProducts[index],
+                                                    cartProducts[index]
+                                                            .quantity -
+                                                        1,
+                                                  );
+                                            },
+                                            icon: Icon(CupertinoIcons.minus),
+                                          ),
+                                        Text(
+                                          '${cartProducts[index].quantity}',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w400,
+                                          ),
                                         ),
-                                      if (cartProducts[index].quantity > 1)
                                         IconButton(
                                           onPressed: () {
                                             ref
                                                 .read(cartProvider.notifier)
                                                 .quantityIncrement(
                                                   cartProducts[index],
-                                                  cartProducts[index].quantity -
+                                                  cartProducts[index].quantity +
                                                       1,
                                                 );
                                           },
-                                          icon: Icon(CupertinoIcons.minus),
+                                          icon: Icon(CupertinoIcons.add),
                                         ),
-                                      Text(
-                                        '${cartProducts[index].quantity}',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                          ref
-                                              .read(cartProvider.notifier)
-                                              .quantityIncrement(
-                                                cartProducts[index],
-                                                cartProducts[index].quantity +
-                                                    1,
-                                              );
-                                        },
-                                        icon: Icon(CupertinoIcons.add),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       },
                     ),
             ),
             SizedBox(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'SubTotal:',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'SubTotal:',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                      Text(
-                        'R ${cartTotal.toStringAsFixed(2)}',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
+                        Text(
+                          'R ${cartTotal.toStringAsFixed(2)}',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Wallet Credit Applied:',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Text(
-                        'R0.00',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Divider(),
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Total:',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        'R ${cartTotal.toStringAsFixed(2)}',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero,
-                        ),
-                      ),
-                      onPressed: cartProducts.isEmpty ? null : () {},
-                      child: Text('Checkout'),
+                      ],
                     ),
-                  ),
-                ],
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Wallet Credit Applied:',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Text(
+                          'R0.00',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 5),
+                    Divider(),
+                    SizedBox(height: 5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Total:',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          'R ${cartTotal.toStringAsFixed(2)}',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.zero,
+                          ),
+                        ),
+                        onPressed: cartProducts.isEmpty ? null : () {},
+                        child: Text('Checkout'),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

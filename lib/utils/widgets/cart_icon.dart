@@ -27,7 +27,7 @@ class _CartIconState extends ConsumerState<CartIcon> {
               width: 17,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.blueAccent,
+                color: Colors.blueGrey[900],
               ),
               child: Center(
                 child: Text(

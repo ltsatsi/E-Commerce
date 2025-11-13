@@ -7,10 +7,10 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'E-Commerce Application',
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
       theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
       initialRoute: RouteManager.homePage,
       onGenerateRoute: RouteManager.generateRoute,
     );
