@@ -17,7 +17,7 @@ class _WishListPageState extends ConsumerState<WishListPage> {
   Widget build(BuildContext context) {
     final wishProducts = ref.watch(wishProvider);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFF1B1A1F),
       appBar: AppBar(
         foregroundColor: Colors.white,
         backgroundColor: const Color(0xFF1B1A1F),
@@ -25,89 +25,117 @@ class _WishListPageState extends ConsumerState<WishListPage> {
         centerTitle: true,
       ),
       body: wishProducts.isEmpty
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(CupertinoIcons.heart, size: 72),
-                  SizedBox(height: 10),
-                  Text('Wish list is empty', style: TextStyle(fontSize: 18)),
-                ],
+          ? Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(CupertinoIcons.heart, size: 52),
+                    SizedBox(height: 15),
+                    Text('Wish list is empty'),
+                  ],
+                ),
               ),
             )
           : Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20.0),
-                child: ListView.builder(
-                  itemCount: wishProducts.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0,
-                        vertical: 5,
-                      ),
-                      child: Card(
-                        color: Colors.white,
-                        child: ListTile(
-                          leading: Image.asset(
-                            width: 60,
-                            wishProducts[index].image,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Image.asset(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: ListView.builder(
+                      itemCount: wishProducts.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Card(
+                            color: Colors.white,
+                            child: ListTile(
+                              leading: Image.asset(
                                 width: 60,
-                                'assets/images/fallback.jpg',
-                                fit: BoxFit.cover,
-                              );
-                            },
-                          ),
-                          title: Text(wishProducts[index].name),
-                          subtitle: Text(
-                            'R ${wishProducts[index].price.toStringAsFixed(2)}',
-                          ),
-                          trailing: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            width: 100,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    ref
-                                        .read(wishProvider.notifier)
-                                        .removeProduct(wishProducts[index]);
-                                  },
-                                  icon: Icon(
-                                    Icons.delete_outline,
-                                    color: const Color(0xFF1B1A1F),
-                                  ),
+                                wishProducts[index].image,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Image.asset(
+                                    width: 60,
+                                    'assets/images/fallback.jpg',
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                              ),
+                              title: Text(wishProducts[index].name),
+                              subtitle: Text(
+                                'R ${wishProducts[index].price.toStringAsFixed(2)}',
+                              ),
+                              trailing: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                                IconButton(
-                                  onPressed: !wishProducts[index].inStock
-                                      ? null
-                                      : () {
-                                          ref
-                                              .read(cartProvider.notifier)
-                                              .addProduct(wishProducts[index]);
-                                          ref
-                                              .read(wishProvider.notifier)
-                                              .removeProduct(
-                                                wishProducts[index],
-                                              );
-                                        },
-                                  icon: Icon(
-                                    CupertinoIcons.bag_badge_plus,
-                                    color: const Color(0xFF1B1A1F),
-                                  ),
+                                width: 100,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    IconButton(
+                                      onPressed: () {
+                                        ref
+                                            .read(wishProvider.notifier)
+                                            .removeProduct(wishProducts[index]);
+                                      },
+                                      icon: Icon(
+                                        Icons.delete_outline,
+                                        color: const Color(0xFF1B1A1F),
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: !wishProducts[index].inStock
+                                          ? null
+                                          : () {
+                                              ref
+                                                  .read(cartProvider.notifier)
+                                                  .addProduct(
+                                                    wishProducts[index],
+                                                  );
+                                              ref
+                                                  .read(wishProvider.notifier)
+                                                  .removeProduct(
+                                                    wishProducts[index],
+                                                  );
+                                            },
+                                      icon: Icon(
+                                        CupertinoIcons.bag_badge_plus,
+                                        color: !wishProducts[index].inStock
+                                            ? const Color.fromARGB(
+                                                255,
+                                                159,
+                                                159,
+                                                161,
+                                              )
+                                            : const Color(0xFF1B1A1F),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    );
-                  },
+                        );
+                      },
+                    ),
+                  ),
                 ),
               ),
             ),

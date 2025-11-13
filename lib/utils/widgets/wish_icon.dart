@@ -18,7 +18,7 @@ class _WishIconState extends ConsumerState<WishIcon> {
       children: [
         Padding(
           padding: const EdgeInsets.all(3),
-          child: Icon(CupertinoIcons.bag),
+          child: Icon(CupertinoIcons.heart),
         ),
         if (wishProducts.isNotEmpty)
           Positioned(
