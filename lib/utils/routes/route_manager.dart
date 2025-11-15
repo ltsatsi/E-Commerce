@@ -1,3 +1,4 @@
+import 'package:e_commerce/auth-feature/presentation/auth_gate.dart';
 import 'package:e_commerce/auth-feature/presentation/get_started_page.dart';
 import 'package:e_commerce/auth-feature/presentation/login_page.dart';
 import 'package:e_commerce/auth-feature/presentation/register_page.dart';
@@ -11,7 +12,8 @@ import 'package:flutter/material.dart';
 class RouteManager {
   RouteManager._();
 
-  static const String getStartedPage = '/';
+  static const String authGate = '/';
+  static const String getStartedPage = '/getStartedPage';
   static const String registerPage = '/registerPage';
   static const String loginPage = '/loginPage';
   static const String homePage = '/homePage';
@@ -22,6 +24,8 @@ class RouteManager {
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case authGate:
+        return MaterialPageRoute(builder: (context) => AuthGate());
       case getStartedPage:
         return MaterialPageRoute(builder: (context) => GetStartedPage());
       case homePage:

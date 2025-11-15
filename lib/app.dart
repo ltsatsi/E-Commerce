@@ -11,7 +11,7 @@ class App extends StatelessWidget {
       title: 'E-Commerce Application',
       themeMode: ThemeMode.light,
       theme: ThemeData.light(),
-      initialRoute: RouteManager.getStartedPage,
+      initialRoute: RouteManager.authGate,
       onGenerateRoute: RouteManager.generateRoute,
     );
   }

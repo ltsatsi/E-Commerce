@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -28,6 +29,56 @@ class _RegisterPageState extends State<RegisterPage> {
     _passwordCtrl.dispose();
     _confirmPasswordCtrl.dispose();
     super.dispose();
+  }
+
+  Future registerAccWithEmailAndPassword() async {
+    try {
+      if (passwordsMatch(
+        password: _passwordCtrl.text.trim(),
+        confirmPassword: _confirmPasswordCtrl.text.trim(),
+      )) {
+        final userCrendetial = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+              email: _emailCtrl.text.trim(),
+              password: _passwordCtrl.text.trim(),
+            );
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Account for ${userCrendetial.user!.email} is successfully created',
+            ),
+          ),
+        );
+
+        _firstNameCtrl.clear();
+        _lastNameCtrl.clear();
+        _phoneCtrl.clear();
+        _emailCtrl.clear();
+        _passwordCtrl.clear();
+        _confirmPasswordCtrl.clear();
+      } else {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Paswords don\'t match')));
+      }
+    } on FirebaseException catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.message.toString())));
+    }
+  }
+
+  bool passwordsMatch({
+    required String password,
+    required String confirmPassword,
+  }) {
+    bool match = false;
+    if (password == confirmPassword) {
+      match = true;
+    }
+
+    return match;
   }
 
   @override
@@ -231,7 +282,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: registerAccWithEmailAndPassword,
                     child: Padding(
                       padding: const EdgeInsets.all(15),
                       child: Text(

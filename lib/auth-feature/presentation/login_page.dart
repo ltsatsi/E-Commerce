@@ -1,4 +1,4 @@
-import 'package:e_commerce/utils/routes/route_manager.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +20,22 @@ class _LoginPageState extends State<LoginPage> {
     _emailCtrl.dispose();
     _passwordCtrl.dispose();
     super.dispose();
+  }
+
+  Future loginUserWithEmailAndPassword() async {
+    try {
+      final UserCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+            email: _emailCtrl.text.trim(),
+            password: _passwordCtrl.text.trim(),
+          );
+
+      print('${UserCredential.user!.email} Logged In!');
+    } on FirebaseException catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.message.toString())));
+    }
   }
 
   @override
@@ -167,7 +183,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.of(context).pushNamed(RouteManager.homePage);
+                      loginUserWithEmailAndPassword();
+                      Navigator.pop(context);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(15),
