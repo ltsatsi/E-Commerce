@@ -42,7 +42,10 @@ class _ProductPageState extends ConsumerState<ProductPage> {
         ),
         title: Padding(
           padding: const EdgeInsets.only(top: 10),
-          child: Text('Product Details'),
+          child: Text(
+            '${product.name} Details',
+            style: TextStyle(fontSize: 18),
+          ),
         ),
         centerTitle: true,
       ),

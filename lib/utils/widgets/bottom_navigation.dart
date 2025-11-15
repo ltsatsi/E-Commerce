@@ -33,13 +33,16 @@ class _CBottomNavigationState extends State<CBottomNavigation> {
             case 2:
               Navigator.of(context).pushNamed(RouteManager.cartPage);
               break;
+            case 3:
+              Navigator.of(context).pushNamed(RouteManager.profilePage);
+              break;
           }
         });
       },
       items: [
         BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
         BottomNavigationBarItem(icon: WishIcon(), label: 'Wishlist'),
-        BottomNavigationBarItem(icon: CartIcon(), label: 'Cart'),
+        BottomNavigationBarItem(icon: CartIcon(), label: 'Bag'),
         BottomNavigationBarItem(
           icon: Icon(CupertinoIcons.person),
           label: 'Profile',

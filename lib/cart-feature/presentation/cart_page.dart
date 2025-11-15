@@ -33,7 +33,7 @@ class _CartPageState extends ConsumerState<CartPage> {
         ),
         title: Padding(
           padding: const EdgeInsets.only(top: 10),
-          child: Text('Shopping Cart', style: TextStyle(fontSize: 18)),
+          child: Text('Shopping Bag', style: TextStyle(fontSize: 18)),
         ),
         centerTitle: true,
       ),
@@ -78,9 +78,9 @@ class _CartPageState extends ConsumerState<CartPage> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(CupertinoIcons.cart, size: 52),
+                              Icon(CupertinoIcons.bag, size: 52),
                               SizedBox(height: 10),
-                              Text('Cart is Empty'),
+                              Text('Bag is Empty'),
                             ],
                           ),
                         )
