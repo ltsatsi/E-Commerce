@@ -182,10 +182,7 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    onPressed: () {
-                      loginUserWithEmailAndPassword();
-                      Navigator.pop(context);
-                    },
+                    onPressed: loginUserWithEmailAndPassword,
                     child: Padding(
                       padding: const EdgeInsets.all(15),
                       child: Text(

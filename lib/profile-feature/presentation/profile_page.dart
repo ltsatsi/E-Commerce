@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce/Database/firestore_service.dart';
 import 'package:e_commerce/utils/widgets/bottom_navigation.dart';
 import 'package:e_commerce/utils/widgets/profile_avatar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,6 +14,9 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final String uid = FirebaseAuth.instance.currentUser!.uid;
+  final FirestoreService firestoreService = FirestoreService();
+
   void signOutAccount() async {
     await FirebaseAuth.instance.signOut();
   }
@@ -62,39 +67,51 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(height: 20),
 
                   // user details
-                  Column(
-                    children: [
-                      // user profile image
-                      Text(
-                        'First Last Name',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
-                        ),
-                      ),
-                      SizedBox(height: 5),
+                  StreamBuilder<DocumentSnapshot>(
+                    stream: firestoreService.getCurrentUserStream(uid),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      }
 
-                      // user email
-                      Text(
-                        'Euser123@gmail.com',
-                        style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.w300,
-                          fontSize: 18,
-                        ),
-                      ),
-                      SizedBox(height: 5),
+                      if (!snapshot.hasData || !snapshot.data!.exists) {
+                        return Text("User data not found");
+                      }
 
-                      // user phone number
-                      Text(
-                        '555-1234',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ],
+                      var userData = snapshot.data!;
+                      return Column(
+                        children: [
+                          Text(
+                            "${userData['firstName']} ${userData['lastName']}",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 20,
+                            ),
+                          ),
+                          SizedBox(height: 5),
+
+                          Text(
+                            userData['email'],
+                            style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.w300,
+                              fontSize: 18,
+                            ),
+                          ),
+                          SizedBox(height: 5),
+
+                          Text(
+                            userData['phone'],
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
+
                   SizedBox(height: 20),
 
                   // Divider - styling purposes
@@ -157,10 +174,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      onPressed: () {
-                        signOutAccount();
-                        Navigator.pop(context);
-                      },
+                      onPressed: signOutAccount,
                       child: Padding(
                         padding: const EdgeInsets.all(15),
                         child: Text(

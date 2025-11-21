@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce/Database/firestore_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +18,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _emailCtrl = TextEditingController();
   final TextEditingController _passwordCtrl = TextEditingController();
   final TextEditingController _confirmPasswordCtrl = TextEditingController();
+
+  final FirestoreService firestoreService = FirestoreService();
 
   bool passwordObscure = true;
   bool confirmPasswordObscure = true;
@@ -37,16 +41,25 @@ class _RegisterPageState extends State<RegisterPage> {
         password: _passwordCtrl.text.trim(),
         confirmPassword: _confirmPasswordCtrl.text.trim(),
       )) {
-        final userCrendetial = await FirebaseAuth.instance
+        final userCredential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(
               email: _emailCtrl.text.trim(),
               password: _passwordCtrl.text.trim(),
             );
+        final String uid = userCredential.user!.uid;
+
+        await firestoreService.users.doc(uid).set({
+          'firstName': _firstNameCtrl.text.trim(),
+          'lastName': _lastNameCtrl.text.trim(),
+          'phone': _phoneCtrl.text.trim(),
+          'email': _emailCtrl.text.trim(),
+          'timestamp': Timestamp.now(),
+        });
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'Account for ${userCrendetial.user!.email} is successfully created',
+              'Account for ${userCredential.user!.email} is successfully created',
             ),
           ),
         );

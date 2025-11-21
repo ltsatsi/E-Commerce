@@ -13,7 +13,9 @@ class AuthGate extends StatelessWidget {
       builder: (context, snapshot) {
         // Waiting for Firebase
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+            child: Scaffold(body: CircularProgressIndicator()),
+          );
         }
 
         // User NOT logged in
