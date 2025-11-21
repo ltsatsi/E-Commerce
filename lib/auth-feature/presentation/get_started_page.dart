@@ -28,7 +28,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Text('Logo Image')],
+                    children: [Text('')],
                   ),
                 ),
               ),
@@ -98,9 +98,14 @@ class _GetStartedPageState extends State<GetStartedPage> {
                   // Login Button for existing users
                   SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFE0E0E6),
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(
+                          255,
+                          237,
+                          237,
+                          240,
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),

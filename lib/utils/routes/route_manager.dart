@@ -1,4 +1,5 @@
 import 'package:e_commerce/auth-feature/presentation/auth_gate.dart';
+import 'package:e_commerce/auth-feature/presentation/forgot_password.dart';
 import 'package:e_commerce/auth-feature/presentation/get_started_page.dart';
 import 'package:e_commerce/auth-feature/presentation/login_page.dart';
 import 'package:e_commerce/auth-feature/presentation/register_page.dart';
@@ -16,6 +17,7 @@ class RouteManager {
   static const String getStartedPage = '/getStartedPage';
   static const String registerPage = '/registerPage';
   static const String loginPage = '/loginPage';
+  static const String forgotPassword = '/forgotPassword';
   static const String homePage = '/homePage';
   static const String productPage = '/productPage';
   static const String cartPage = '/cartPage';
@@ -42,6 +44,8 @@ class RouteManager {
         return MaterialPageRoute(builder: (context) => LoginPage());
       case profilePage:
         return MaterialPageRoute(builder: (context) => ProfilePage());
+      case forgotPassword:
+        return MaterialPageRoute(builder: (context) => ForgotPassword());
       default:
         throw FormatException('Page not found! Check RouteManager.');
     }

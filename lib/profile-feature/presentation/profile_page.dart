@@ -21,6 +21,27 @@ class _ProfilePageState extends State<ProfilePage> {
     await FirebaseAuth.instance.signOut();
   }
 
+  void _warnUser() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          icon: Icon(Icons.warning),
+          title: Text('You are signing out...'),
+          actions: [
+            TextButton(onPressed: signOutAccount, child: Text('Yes')),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('No'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -174,7 +195,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      onPressed: signOutAccount,
+                      onPressed: _warnUser,
                       child: Padding(
                         padding: const EdgeInsets.all(15),
                         child: Text(

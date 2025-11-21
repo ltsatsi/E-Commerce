@@ -1,3 +1,4 @@
+import 'package:e_commerce/utils/routes/route_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Text('Logo Image')],
+                      children: [Text('')],
                     ),
                   ),
                 ),
@@ -159,7 +160,11 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(
+                          context,
+                        ).pushNamed(RouteManager.forgotPassword);
+                      },
                       child: Text(
                         'Forgot Password',
                         style: TextStyle(
