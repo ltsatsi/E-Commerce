@@ -1,3 +1,4 @@
+import 'package:e_commerce/product-feature/models/product.dart';
 import 'package:e_commerce/product-feature/providers/product_provider.dart';
 import 'package:e_commerce/utils/routes/route_manager.dart';
 import 'package:e_commerce/utils/widgets/bottom_navigation.dart';
@@ -13,7 +14,6 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  String sortOrder = 'all';
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -24,7 +24,10 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final products = ref.watch(productNotifierProvider);
+    List<Product> products = ref.watch(searchedProductsProvider).isNotEmpty
+        ? ref.watch(searchedProductsProvider)
+        : ref.watch(productNotifierProvider);
+
     Color bgColor = const Color(0xFF1B1A1F);
 
     return Scaffold(
@@ -74,6 +77,15 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ),
                 child: TextField(
                   controller: _searchController,
+                  keyboardType: TextInputType.webSearch,
+                  textInputAction: TextInputAction.search,
+                  onSubmitted: (value) {
+                    final results = ref
+                        .read(productNotifierProvider.notifier)
+                        .search(value);
+
+                    ref.read(searchedProductsProvider.notifier).state = results;
+                  },
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search),
                     hintText: 'Search',
@@ -129,7 +141,6 @@ class _HomePageState extends ConsumerState<HomePage> {
                           ),
                           onSelected: (value) {
                             // handle selection
-                            sortOrder = value;
                           },
                           itemBuilder: (context) => [
                             const PopupMenuItem(

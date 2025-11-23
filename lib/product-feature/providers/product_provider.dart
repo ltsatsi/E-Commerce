@@ -415,6 +415,16 @@ final liveSelectedProductProvider = Provider<Product?>((ref) {
 class ProductNotifier extends StateNotifier<List<Product>> {
   ProductNotifier() : super(allProducts);
 
+  List<Product> search(String name) {
+    if (name.isEmpty) {
+      return state;
+    }
+
+    return state
+        .where((p) => p.name.toLowerCase().contains(name.toLowerCase()))
+        .toList();
+  }
+
   void toggleLike(int productId, WidgetRef ref) {
     state = state.map((product) {
       if (product.productId == productId) {
@@ -440,3 +450,5 @@ final productNotifierProvider =
     StateNotifierProvider<ProductNotifier, List<Product>>((ref) {
       return ProductNotifier();
     });
+
+final searchedProductsProvider = StateProvider<List<Product>>((ref) => []);
